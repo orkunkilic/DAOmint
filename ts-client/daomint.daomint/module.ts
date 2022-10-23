@@ -7,10 +7,32 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
+import { MsgCreateVote } from "./types/daomint/daomint/tx";
+import { MsgCreateVoting } from "./types/daomint/daomint/tx";
 
 
-export {  };
+export { MsgCreateVote, MsgCreateVoting };
 
+type sendMsgCreateVoteParams = {
+  value: MsgCreateVote,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgCreateVotingParams = {
+  value: MsgCreateVoting,
+  fee?: StdFee,
+  memo?: string
+};
+
+
+type msgCreateVoteParams = {
+  value: MsgCreateVote,
+};
+
+type msgCreateVotingParams = {
+  value: MsgCreateVoting,
+};
 
 
 export const registry = new Registry(msgTypes);
@@ -30,6 +52,50 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 
   return {
 		
+		async sendMsgCreateVote({ value, fee, memo }: sendMsgCreateVoteParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateVote: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateVote({ value: MsgCreateVote.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreateVote: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgCreateVoting({ value, fee, memo }: sendMsgCreateVotingParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateVoting: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateVoting({ value: MsgCreateVoting.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreateVoting: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		
+		msgCreateVote({ value }: msgCreateVoteParams): EncodeObject {
+			try {
+				return { typeUrl: "/daomint.daomint.MsgCreateVote", value: MsgCreateVote.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateVote: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgCreateVoting({ value }: msgCreateVotingParams): EncodeObject {
+			try {
+				return { typeUrl: "/daomint.daomint.MsgCreateVoting", value: MsgCreateVoting.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateVoting: Could not create message: ' + e.message)
+			}
+		},
 		
 	}
 };

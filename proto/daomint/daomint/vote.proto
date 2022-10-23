@@ -1,0 +1,12 @@
+syntax = "proto3";
+package daomint.daomint;
+
+option go_package = "DAOmint/x/daomint/types";
+
+message Vote {
+  uint64 id = 1;
+  string creator = 2; 
+  uint64 option = 3; 
+  uint64 votingID = 4; 
+  int64 createdAt = 5; 
+}

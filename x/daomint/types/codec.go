@@ -3,15 +3,23 @@ package types
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
-	// this line is used by starport scaffolding # 1
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
+	cdc.RegisterConcrete(&MsgCreateVoting{}, "daomint/CreateVoting", nil)
+	cdc.RegisterConcrete(&MsgCreateVote{}, "daomint/CreateVote", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateVoting{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateVote{},
+	)
 	// this line is used by starport scaffolding # 3
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)

@@ -12,8 +12,16 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_daomint"
+
+	VotingKey      = "Voting/value/"
+	VotingCountKey = "Voting/count/"
 )
 
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
+
+const (
+	VoteKey      = "Vote/value/"
+	VoteCountKey = "Vote/count/"
+)
