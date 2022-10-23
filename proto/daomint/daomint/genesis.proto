@@ -1,0 +1,14 @@
+syntax = "proto3";
+package daomint.daomint;
+
+import "gogoproto/gogo.proto";
+import "daomint/daomint/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "DAOmint/x/daomint/types";
+
+// GenesisState defines the daomint module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}

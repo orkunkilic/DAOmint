@@ -1,0 +1,13 @@
+syntax = "proto3";
+package daomint.daomint;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "DAOmint/x/daomint/types";
+
+// Msg defines the Msg service.
+service Msg {
+    // this line is used by starport scaffolding # proto/tx/rpc
+}
+
+// this line is used by starport scaffolding # proto/tx/message
