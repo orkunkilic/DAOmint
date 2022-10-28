@@ -20,6 +20,12 @@ func (k msgServer) CreateVote(goCtx context.Context, msg *types.MsgCreateVote) (
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
 
+	// find if there is a vote exists with the same creator in the same voting, return error if found
+	_, found = k.GetVoteByCreatorAndVotingID(ctx, msg.Creator, msg.VotingID)
+	if found {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, fmt.Sprintf("Vote already exists for the creator %s in voting %d", msg.Creator, msg.VotingID))
+	}
+
 	// Create variable of type comment
 	var vote = types.Vote{
 		Creator:   msg.Creator,
@@ -29,7 +35,6 @@ func (k msgServer) CreateVote(goCtx context.Context, msg *types.MsgCreateVote) (
 		CreatedAt: ctx.BlockHeight(),
 	}
 
-	// Check if the comment is older than the Post. If more than 100 blocks, then return error.
 	if uint64(vote.CreatedAt) > post.Expiration {
 		return nil, sdkerrors.Wrapf(types.ErrVotingExpired, "Voting expired at %d", post.Expiration)
 	}

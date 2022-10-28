@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 
 	"DAOmint/x/daomint/types"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -69,6 +70,18 @@ func (k Keeper) GetVote(ctx sdk.Context, id uint64) (val types.Vote, found bool)
 	}
 	k.cdc.MustUnmarshal(b, &val)
 	return val, true
+}
+
+// GetVoteByCreator returns a vote from its creator
+// Worst design ever, but it works. We should use a secondary index, or a better data structure -> map
+func (k Keeper) GetVoteByCreatorAndVotingID(ctx sdk.Context, creator string, votingID uint64) (val types.Vote, found bool) {
+	voteList := k.GetAllVote(ctx)
+	for _, item := range voteList {
+		if item.Creator == creator && item.VotingID == votingID {
+			return item, true
+		}
+	}
+	return
 }
 
 // RemoveVote removes a vote from the store

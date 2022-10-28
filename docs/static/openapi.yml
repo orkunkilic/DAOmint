@@ -34218,8 +34218,6 @@ paths:
                     id:
                       type: string
                       format: uint64
-                    creator:
-                      type: string
                     option:
                       type: string
                       format: uint64
@@ -34350,8 +34348,6 @@ paths:
                   id:
                     type: string
                     format: uint64
-                  creator:
-                    type: string
                   option:
                     type: string
                     format: uint64
@@ -34423,8 +34419,6 @@ paths:
                     id:
                       type: string
                       format: uint64
-                    creator:
-                      type: string
                     option:
                       type: string
                       format: uint64
@@ -70902,8 +70896,6 @@ definitions:
             id:
               type: string
               format: uint64
-            creator:
-              type: string
             option:
               type: string
               format: uint64
@@ -70948,8 +70940,6 @@ definitions:
           id:
             type: string
             format: uint64
-          creator:
-            type: string
           option:
             type: string
             format: uint64
@@ -70995,8 +70985,6 @@ definitions:
             id:
               type: string
               format: uint64
-            creator:
-              type: string
             option:
               type: string
               format: uint64
@@ -71087,8 +71075,6 @@ definitions:
       id:
         type: string
         format: uint64
-      creator:
-        type: string
       option:
         type: string
         format: uint64
